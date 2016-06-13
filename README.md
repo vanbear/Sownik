@@ -5,11 +5,13 @@ It is entirely open source, you can do with it whatever and whenever you want.
 
 You'll need any device that's capable of running Python stuff
 
-Windows:
+##Windows:
+Install those:
 - Python 2.7
 - Kivy 1.9.1
+and run main.py!
 
-Android:
+##Android:
 - Download and instal Kivy Launcher: https://play.google.com/store/apps/details?id=org.kivy.pygame&hl=pl 
 - Create "Kivy" folder in your device's storage root catalog
 - copy files to /Kivy/App_name
