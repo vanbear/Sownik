@@ -1,0 +1,345 @@
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+#:kivy 1.9.1
+# main.py
+
+ScreenManagement:
+	transition: FadeTransition()
+	
+	MainScreen:
+	AboutScreen:
+	CategorySelectScreen:
+	DictScreen:
+		id:created_dict_screen
+
+<Widget>: ## zmiana czcionki w calej aplikacji
+	font_name: 'data/font/blogger.ttf'
+	
+		
+## GŁÓWNY EKRAN
+<MainScreen>:
+	name: "main"
+    canvas:
+		## RYSOWANIE BIAŁEGO TŁA ##
+        Color:
+            rgb: (1, 1, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+			
+	BoxLayout:
+		orientation:"vertical"
+		
+		Image: ## logotyp
+			id: logo_image
+			keep_ratio: True
+			allow_stretch: True
+			pos_hint: {"center_x":.5}
+			size_hint_x: 0.5
+			source: "data/img/logo.jpg"
+		
+		BoxLayout:  
+			orientation:"vertical"
+			size_hint:1,1
+			pos_hint:{"center_x":.5}
+			Button:  ## PRZYCISK START
+				background_color: (1.0, 0.0, 0.0, 1.0)
+				text: "Start"
+				font_size: sp(25)
+				on_release: app.root.current = "categoryscreen"
+				size_hint: .5, 1
+				pos_hint: {"center_x":.5}
+			Button:  ## PRZYCISK O APLIKACJI
+				background_color: (1.0, 0.0, 0.0, 1.0)
+				text: "O Aplikacji"
+				font_size: sp(25)
+				on_release: app.root.current = "aboutscreen"
+				size_hint: .5, 1
+				pos_hint: {"center_x":.5}
+			
+## EKRAN O APLIKACJI		
+<AboutScreen>:
+	name: "aboutscreen"
+	canvas:
+		## RYSOWANIE BIAŁEGO TŁA ##
+        Color:
+            rgb: (1, 1, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+			
+	Label: ## content 
+		text: "[size=45sp]Sownik[/size]\n\nAplikacja przygotowana przez:\n\n[color=006699]Daniel Wąs[/color]\ngłówny programista, kierownik projektu\n\n[color=a50ccc]Wioleta Womińska[/color]\ngrafika, design, pomoc programisty \n\nw ramach przedmiotu \n [size=25sp][color=aa0000]Projekt w języku skryptowym[/color][/size]\n\n [color=006699]Uniwersytet Wrocławski\nWydział Fizyki i Astronomii\nInformatyka Stosowana i Systemy Pomiarowe\nsemestr II[/color]"
+		markup: True
+		color: 0,0,0,1
+		font_size: sp(16)
+		halign: "center"
+		
+	FloatLayout:
+		size_hint: None,None
+		
+		Button: ##cofnij
+			id: back_button_about
+			background_normal:'data/img/leftarrow.png'
+			background_down:'data/img/leftarrow.png'
+			background_color:1,0,0,1
+			border: 1,1,1,1
+			on_release: app.root.current = "main"
+			size_hint: None,1
+			
+		
+		
+## EKRAN WYBORU KATEGORII
+<CategorySelectScreen>:
+	name: "categoryscreen"
+
+	canvas:
+		## RYSOWANIE BIAŁEGO TŁA ##
+        Color:
+            rgb: (1, 1, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+	
+	FloatLayout:
+		size_hint: None,None
+		Button: ##cofnij
+			id: back_button_cat
+			background_normal:'data/img/leftarrow.png'
+			background_down:'data/img/leftarrow.png'
+			background_color:1,0,0,1
+			border: 1,1,1,1
+			on_release: app.root.current = "main"
+			size_hint: None,1
+	
+	
+	BoxLayout:
+		orientation:"vertical"
+		Label: ## tytul ekranu
+			id: category_screen_title_label
+			text:"Wybierz kategorię"
+			color: 0,0,0,1
+			size_hint: 1, 0.1
+			font_size: sp(25)
+		
+		## PRZYCISKI WYBORU KATEGORII ##
+		## SPORT ##		
+		Button:
+			background_color: (1.0, 0.0, 0.0, 1.0)
+			text: "SPORT\nSPORT"
+			halign: 'center'
+			## ODSWIEZENIE EKRANU SLOWNIKA Z PODANYMI DANYMI
+			on_release:  
+				sceen_id = app.root.ids.created_dict_screen  ## wybor ekranu, w ktorym chcemy zmieniac atrybuty
+				sceen_id.category_selected = "SPORT"   			## zmiana wybranej kategorii
+				sceen_id.ids.categoryname_label.text = sceen_id.ChangeCategory(sceen_id.selected_objects,sceen_id.index) 	## zmiana etykiety z nazwa kategorii
+				sceen_id.ids.item_image.source = sceen_id.ChangeImage(sceen_id.selected_objects,sceen_id.index)				## zmiana wyswietlanego obrazka
+				sceen_id.ids.name_label.text = sceen_id.ChangeLabel(sceen_id.selected_objects,sceen_id.index)				## zmiana etykiety z nazwa
+				sceen_id.ids.counter_label.text = "("+str(sceen_id.index+1)+"/"+str(len(sceen_id.selected_objects))+")"		## zmiana zawartosci etykiety z licznikiem
+				app.root.current = "dict"  ## przejscie do ekranu slownika
+			size_hint: .7, .1
+			pos_hint: {"center_x":.5}
+			
+		## FRUITS ##		
+		Button:
+			background_color: (1.0, 0.0, 0.0, 1.0)
+			text: "OWOCE\nFRUITS"
+			halign: 'center'
+			## ODSWIEZENIE EKRANU SLOWNIKA Z PODANYMI DANYMI
+			on_release: 
+				sceen_id = app.root.ids.created_dict_screen
+				sceen_id.category_selected = "FRUITS"
+				sceen_id.ids.categoryname_label.text = sceen_id.ChangeCategory(sceen_id.selected_objects,sceen_id.index)	## zmiana etykiety z nazwa kategorii
+				sceen_id.ids.item_image.source = sceen_id.ChangeImage(sceen_id.selected_objects,sceen_id.index)				## zmiana wyswietlanego obrazka
+				sceen_id.ids.name_label.text = sceen_id.ChangeLabel(sceen_id.selected_objects,sceen_id.index)				## zmiana etykiety z nazwa
+				sceen_id.ids.counter_label.text = "("+str(sceen_id.index+1)+"/"+str(len(sceen_id.selected_objects))+")"		## zmiana zawartosci etykiety z licznikiem
+				app.root.current = "dict"  ## przejscie do ekranu slownika
+			size_hint: .7, .1
+			pos_hint: {"center_x":.5}
+			
+			
+		## VEGETABLES ##		
+		Button:
+			background_color: (1.0, 0.0, 0.0, 1.0)
+			text: "WARZYWA\nVEGETABLES"
+			halign: 'center'
+			## ODSWIEZENIE EKRANU SLOWNIKA Z PODANYMI DANYMI
+			on_release: 
+				sceen_id = app.root.ids.created_dict_screen
+				sceen_id.category_selected = "VEGETABLES"
+				sceen_id.ids.categoryname_label.text = sceen_id.ChangeCategory(sceen_id.selected_objects,sceen_id.index)	## zmiana etykiety z nazwa kategorii
+				sceen_id.ids.item_image.source = sceen_id.ChangeImage(sceen_id.selected_objects,sceen_id.index)				## zmiana wyswietlanego obrazka
+				sceen_id.ids.name_label.text = sceen_id.ChangeLabel(sceen_id.selected_objects,sceen_id.index)				## zmiana etykiety z nazwa
+				sceen_id.ids.counter_label.text = "("+str(sceen_id.index+1)+"/"+str(len(sceen_id.selected_objects))+")"		## zmiana zawartosci etykiety z licznikiem
+				app.root.current = "dict"  ## przejscie do ekranu slownika
+			size_hint: .7, .1
+			pos_hint: {"center_x":.5}
+			
+		## CLOTHES ##		
+		Button:
+			background_color: (1.0, 0.0, 0.0, 1.0)
+			text: "UBRANIA\nCLOTHES"
+			halign: 'center'
+			## ODSWIEZENIE EKRANU SLOWNIKA Z PODANYMI DANYMI
+			on_release: 
+				sceen_id = app.root.ids.created_dict_screen
+				sceen_id.category_selected = "CLOTHES"
+				sceen_id.ids.categoryname_label.text = sceen_id.ChangeCategory(sceen_id.selected_objects,sceen_id.index)	## zmiana etykiety z nazwa kategorii
+				sceen_id.ids.item_image.source = sceen_id.ChangeImage(sceen_id.selected_objects,sceen_id.index)				## zmiana wyswietlanego obrazka
+				sceen_id.ids.name_label.text = sceen_id.ChangeLabel(sceen_id.selected_objects,sceen_id.index)				## zmiana etykiety z nazwa
+				sceen_id.ids.counter_label.text = "("+str(sceen_id.index+1)+"/"+str(len(sceen_id.selected_objects))+")"		## zmiana zawartosci etykiety z licznikiem
+				app.root.current = "dict"  ## przejscie do ekranu slownika
+			size_hint: .7, .1
+			pos_hint: {"center_x":.5}
+			
+		## TOOLS ##		
+		Button:
+			background_color: (1.0, 0.0, 0.0, 1.0)
+			text: "NARZĘDZIA\nTOOLS"
+			halign: 'center'
+			## ODSWIEZENIE EKRANU SLOWNIKA Z PODANYMI DANYMI
+			on_release: 
+				sceen_id = app.root.ids.created_dict_screen
+				sceen_id.category_selected = "TOOLS"
+				sceen_id.ids.categoryname_label.text = sceen_id.ChangeCategory(sceen_id.selected_objects,sceen_id.index)	## zmiana etykiety z nazwa kategorii
+				sceen_id.ids.item_image.source = sceen_id.ChangeImage(sceen_id.selected_objects,sceen_id.index)				## zmiana wyswietlanego obrazka
+				sceen_id.ids.name_label.text = sceen_id.ChangeLabel(sceen_id.selected_objects,sceen_id.index)				## zmiana etykiety z nazwa
+				sceen_id.ids.counter_label.text = "("+str(sceen_id.index+1)+"/"+str(len(sceen_id.selected_objects))+")"		## zmiana zawartosci etykiety z licznikiem
+				app.root.current = "dict"  ## przejscie do ekranu slownika
+			size_hint: .7, .1
+			pos_hint: {"center_x":.5}
+			
+		## COLORS ##		
+		Button:
+			background_color: (1.0, 0.0, 0.0, 1.0)
+			text: "KOLORY\nCOLORS"
+			halign: 'center'
+			## ODSWIEZENIE EKRANU SLOWNIKA Z PODANYMI DANYMI
+			on_release: 
+				sceen_id = app.root.ids.created_dict_screen
+				sceen_id.category_selected = "COLORS"
+				sceen_id.ids.categoryname_label.text = sceen_id.ChangeCategory(sceen_id.selected_objects,sceen_id.index)	## zmiana etykiety z nazwa kategorii
+				sceen_id.ids.item_image.source = sceen_id.ChangeImage(sceen_id.selected_objects,sceen_id.index)				## zmiana wyswietlanego obrazka
+				sceen_id.ids.name_label.text = sceen_id.ChangeLabel(sceen_id.selected_objects,sceen_id.index)				## zmiana etykiety z nazwa
+				sceen_id.ids.counter_label.text = "("+str(sceen_id.index+1)+"/"+str(len(sceen_id.selected_objects))+")"		## zmiana zawartosci etykiety z licznikiem
+				app.root.current = "dict"  ## przejscie do ekranu slownika
+			size_hint: .7, .1
+			pos_hint: {"center_x":.5}
+			
+			
+		## WSZYSTKO ##		
+		Button:
+			background_color: (1.0, 0.0, 0.0, 1.0)
+			text: "WSZYSTKIE POZYCJE ALFABETYCZNIE\nALL ITEMS ALPHABETICALLY"
+			halign: 'center'
+			## ODSWIEZENIE EKRANU SLOWNIKA Z PODANYMI DANYMI
+			on_release: 
+				sceen_id = app.root.ids.created_dict_screen
+				sceen_id.category_selected = "ALL"
+				sceen_id.ids.categoryname_label.text = sceen_id.ChangeCategory(sceen_id.selected_objects,sceen_id.index)	## zmiana etykiety z nazwa kategorii
+				sceen_id.ids.item_image.source = sceen_id.ChangeImage(sceen_id.selected_objects,sceen_id.index)				## zmiana wyswietlanego obrazka
+				sceen_id.ids.name_label.text = sceen_id.ChangeLabel(sceen_id.selected_objects,sceen_id.index)				## zmiana etykiety z nazwa
+				sceen_id.ids.counter_label.text = "("+str(sceen_id.index+1)+"/"+str(len(sceen_id.selected_objects))+")"		## zmiana zawartosci etykiety z licznikiem
+				app.root.current = "dict"  ## przejscie do ekranu slownika
+			size_hint: .7, .1
+			pos_hint: {"center_x":.5}
+
+## EKRAN SŁOWNIKA
+<DictScreen>:
+		
+	name: "dict"
+	
+	canvas:
+		## RYSOWANIE BIAŁEGO TŁA ##
+		Color:
+            rgb: (1, 1, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+	## wybrana kategoria
+	selected_objects:root.CategorySelect(root.objects,root.current_category)
+	
+	BoxLayout: 						## glowny kontener
+		orientation:'vertical'
+		
+		## KATEGORIA
+		Label:
+			id: categoryname_label
+			color: 0,0,0,1
+			size_hint: 1, 0.2
+			font_size: sp(50)
+		
+		## OBRAZEK
+		Image:
+			id: item_image
+			keep_ratio: True
+			allow_stretch: True
+			pos_hint: {"center_x":.5}
+			size_hint: 0.9, 0.8
+		
+		## NAZWA
+		Label:
+			id: name_label
+			color: 0,0,0,1
+			size_hint: 1, 0.1
+			font_size: sp(25)
+		
+		## LICZNIK
+		Label:
+			id: counter_label
+			color: 0,0,0,1
+			size_hint: 1, 0.1
+			font_size: sp(15)
+		
+		## DOLNY PANEL Z PRZYCISKAMI
+		BoxLayout:
+			size_hint: 1,0.2
+			orientation:'horizontal'
+			FloatLayout:
+				pos_hint:{"right":1}
+				
+				BoxLayout:
+					pos_hint:{"left":1}
+					size_hint:0.1,1
+					orientation:'horizontal'
+					Button: ## COFNIJ DO MENU
+						id: back_button
+						background_normal:'data/img/leftarrow.png'
+						background_down:'data/img/leftarrow.png'
+						background_color:1,0,0,1
+						border: 1,1,1,1
+						on_release: app.root.current = "categoryscreen"
+						size_hint: 0.1,1
+					
+				BoxLayout:
+					pos_hint:{"right":1}
+					size_hint:0.2,1
+					orientation:'horizontal'
+					## POPRZEDNI ELEMENT
+					Button:	
+						id: prev_button
+						on_release:
+							root.index=root.PrevItem(root.selected_objects,root.index) 
+							item_image.source=root.ChangeImage(root.selected_objects,root.index)
+							name_label.text=root.ChangeLabel(root.selected_objects,root.index)
+							categoryname_label.text=root.ChangeCategory(root.selected_objects,root.index)
+							counter_label.text="("+str(root.index+1)+"/"+str(len(root.selected_objects))+")"
+						background_normal:'data/img/leftarrow.png'
+						background_down:'data/img/leftarrow.png'
+						border: 1,1,1,1
+						
+					## NASTĘPNY ELEMENT
+					Button:	
+						id: next_button
+						on_release: 
+							root.index=root.NextItem(root.selected_objects,root.index) 
+							item_image.source=root.ChangeImage(root.selected_objects,root.index)
+							name_label.text=root.ChangeLabel(root.selected_objects,root.index)
+							categoryname_label.text=root.ChangeCategory(root.selected_objects,root.index)
+							counter_label.text="("+str(root.index+1)+"/"+str(len(root.selected_objects))+")"
+						background_normal:'data/img/rightarrow.png'
+						background_down:'data/img/rightarrow.png'
+						border: 1,1,1,1
+					
+
